@@ -2,22 +2,52 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Models\Post;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class BlogTest extends TestCase
 {
     use RefreshDatabase;
-    /**
-     * A basic test example.
-     *
-     * @return void
-     */
-    public function test_the_application_returns_a_successful_response()
+    protected function setUp(): void
     {
-        $response = $this->get('/');
+        parent::setUp();
+        $this->withoutExceptionHandling();
+    }
 
+    /**
+     * @test
+     */
+    public function a_blog_has_blog_entries()
+    {
+        $this->assertDatabaseCount('posts', 100);
+    }
+
+
+    /**
+     * @test
+     */
+    public function a_blog_can_be_viewed()
+    {
+        $post = Post::first();
+        $response = $this->get('/blog/' . $post->id);
         $response->assertStatus(200);
     }
+
+    /**
+     * @test
+     */
+    public function a_blog_contains_a_title()
+    {
+        $post = Post::first();
+        $response = $this->get('/blog/' . $post->id);
+        $response
+            ->assertViewIs('blog.show')
+            ->assertSee($post->title)
+            ->assertSee($post->body)
+            ->assertSee($post->user->name)
+            ->assertSee($post->created_at);
+    }
+
+
 }
