@@ -13,10 +13,22 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/', [StartpageController::class,'index']);
 
-Route::get('/blog/{id}',function($id) {
+Route::get('/', [StartpageController::class, 'index']);
+
+Route::middleware(['auth'])->group(function () {
+    Route::prefix('admin')->group(function () {
+        Route::name('admin.')->group(function () {
+            Route::view('/', 'backend.index')->name('index');
+        });
+    });
+});
+
+Route::get('/blog/{id}', function ($id) {
     $post = \App\Models\Post::first();
     return view('blog.show', compact('post'));
 });
 
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
