@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->string('title');
+            $table->string('slug');
             $table->text('body');
             $table->integer('views')->default(0);
             $table->timestamps();
