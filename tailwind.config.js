@@ -1,3 +1,4 @@
+const colors = require('tailwindcss/colors')
 module.exports = {
     content: [
         "./resources/**/*.blade.php",
@@ -5,7 +6,11 @@ module.exports = {
         "./resources/**/*.vue",
     ],
     theme: {
-        extend: {},
+        extend: {
+            colors: {
+                lime: colors.lime,
+            }
+        },
     },
     plugins: [
         require('@tailwindcss/line-clamp'),
