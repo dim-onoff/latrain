@@ -1,23 +1,29 @@
 <div class="flex-1">
-    <div class="mb-5 flex justify-end">
+
+    <div class="flex justify-between items-center mb-5">
+        <div class="shadow-md flex">
+            <form action="" method="post" class="flex">
+                <input type="text" class="p-2" name="search" wire:keydown.escape="$set('filter.search','')" wire:model="filter.search" placeholder="Filter ..."/>
+            </form>
+        </div>
         <a href="{{route('admin.post.create')}}" class="btn btn-primary">
             <i class="fa fa-plus fa-fw"></i> Beitrag erstellen
         </a>
     </div>
 
 
-    {{--
-        x-td
-        x-tr
-        x-th
-    --}}
     <x-table>
         <x-thead>
             <x-tr class="bg-blue-800 text-white font-bold">
-                <x-th sortable wire:click="sortBy('id')" :direction="$sortField === 'id' ? $sortDirection : null">ID</x-th>
-                <x-th sortable wire:click="sortBy('created_at')" :direction="$sortField === 'created_at' ? $sortDirection : null">Datum</x-th>
+                <x-th sortable wire:click="sortBy('id')" :direction="$sortField === 'id' ? $sortDirection : null">ID
+                </x-th>
+                <x-th sortable wire:click="sortBy('created_at')"
+                      :direction="$sortField === 'created_at' ? $sortDirection : null">Datum
+                </x-th>
                 <x-th></x-th>
-                <x-th sortable wire:click="sortBy('title')" :direction="$sortField === 'title' ? $sortDirection : null" class="w-full">Titel</x-th>
+                <x-th sortable wire:click="sortBy('title')" :direction="$sortField === 'title' ? $sortDirection : null"
+                      class="w-full">Titel
+                </x-th>
                 <x-th>Optionen</x-th>
             </x-tr>
         </x-thead>
