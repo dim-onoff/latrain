@@ -12,15 +12,9 @@ class Table extends Component
 
     public $sortField = 'created_at';
     public $sortDirection = 'desc';
+    public $updated = null;
 
-    public $filter = [
-        'search' => null
-    ];
-
-    public function updatedFilter()
-    {
-        $this->resetPage();
-    }
+    protected $listeners = ["post-updated" => "postUpdated"];
 
     public function sortBy($field)
     {
@@ -33,13 +27,19 @@ class Table extends Component
         $this->sortField = $field;
     }
 
+    public function postUpdated()
+    {
+        $this->updated = now();
+    }
+
+    public function editModal($pid)
+    {
+        $this->emit('edit-modal', $pid);
+    }
+
     public function render()
     {
-        $posts = Post::query()
-            ->when($this->filter['search'], function ($query) {
-                $query->search('title', $this->filter['search']);
-            })
-            ->withTrashed()
+        $posts = Post::withTrashed()
             ->orderBy($this->sortField, $this->sortDirection)
             ->paginate(15);
 

@@ -1,17 +1,16 @@
 <div class="flex-1">
-
-    <div class="flex justify-between items-center mb-5">
-        <div class="shadow-md flex">
-            <form action="" method="post" class="flex">
-                <input type="text" class="p-2" name="search" wire:keydown.escape="$set('filter.search','')" wire:model="filter.search" placeholder="Filter ..."/>
-            </form>
-        </div>
+    <div class="mb-5 flex justify-end">
         <a href="{{route('admin.post.create')}}" class="btn btn-primary">
             <i class="fa fa-plus fa-fw"></i> Beitrag erstellen
         </a>
     </div>
 
 
+    {{--
+        x-td
+        x-tr
+        x-th
+    --}}
     <x-table>
         <x-thead>
             <x-tr class="bg-blue-800 text-white font-bold">
@@ -29,7 +28,7 @@
         </x-thead>
         <x-tbody>
             @foreach($posts as $post)
-                <x-tr wire:loading.class.delay="opacity-25" class="{{ $loop->even ? 'bg-gray-50' : '' }}">
+                <x-tr wire:key="{{$loop->index}}" wire:loading.class.delay="opacity-25" class="{{ $loop->even ? 'bg-gray-50' : '' }}">
                     <x-td>{{ $post->id }}</x-td>
                     <x-td class=" whitespace-nowrap">{{ $post->created_at }}</x-td>
                     <x-td>
@@ -42,8 +41,8 @@
                     <x-td>{{ $post->title }}</x-td>
                     <x-td>
                         <div class="flex">
-
-                            <a href="{{ route('admin.post.edit', $post->slug) }}" class="btn btn-secondary"><i
+                            {{--                            @livewire('edit-modal', ["post" => $post->toArray()], key($loop->index))--}}
+                            <a wire:click="editModal({{$post->id}})" class="btn btn-secondary"><i
                                     class="fa fa-pencil-alt fa-fw"></i></a>
                             <form action="{{ route('admin.post.destroy', $post->slug) }}" method="post">
                                 @method('delete')
