@@ -7,13 +7,6 @@ module.exports = {
         './vendor/usernotnull/tall-toasts/config/**/*.php',
         './vendor/usernotnull/tall-toasts/resources/views/**/*.blade.php',
     ],
-    theme: {
-        extend: {
-            colors: {
-                lime: colors.lime,
-            }
-        },
-    },
     plugins: [
         require('@tailwindcss/line-clamp'),
     ],
