@@ -12,9 +12,12 @@ class Toggle extends Component
 
     public function toggle()
     {
-        $this->post->isTrashed() ? $this->post->restore() : $this->post->delete();
-        $this->post->isTrashed() ? toast()->success('Der Beitrag ist unsichtbar geschaltet')->push() : toast()->success('Der Beitrag ist sichtbar geschaltet')->push();
-        ;
+        if(\Auth::user()->can('toggle posts')) {
+            $this->post->isTrashed() ? $this->post->restore() : $this->post->delete();
+            $this->post->isTrashed() ? toast()->success('Der Beitrag ist unsichtbar geschaltet')->push() : toast()->success('Der Beitrag ist sichtbar geschaltet')->push();
+        } else {
+            toast()->danger('Diese Aktion ist nicht erlaubt')->push();
+        }
     }
 
     public function render()
