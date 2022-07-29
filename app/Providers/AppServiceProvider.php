@@ -10,6 +10,7 @@ class AppServiceProvider extends ServiceProvider
 {
 
     use FlashMessages;
+
     /**
      * Register any application services.
      *
@@ -27,13 +28,17 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        view()->composer('components.flash-messages', function($view) {
+        view()->composer('components.flash-messages', function ($view) {
             $messages = self::messages();
             return $view->with('messages', $messages);
         });
 
         Builder::macro('search', function ($field, $string) {
-            return $string ? $this->where($field, 'like', '%'.$string.'%') : $this;
+            return $string ? $this->where($field, 'like', '%' . $string . '%') : $this;
+        });
+
+        Builder::macro('orSearch', function ($field, $string) {
+            return $string ? $this->orWhere($field, 'like', '%' . $string . '%') : $this;
         });
     }
 }
